@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+	td {
+		width: 20px;
+		height: 20px;
+		background-color: gray;
+	}
+</style>
+
+<body>
+	<h1>Задача №6</h1>
+
+	<p>
+		Створити таблицю. При натисканні на клітинку вміст змінює на червоний колір.
+	</p>
+	<hr>
+
+	<table border="2px">
+		<tr>
+			<td mine="0"></td>
+			<td mine="1"></td>
+			<td mine="0"></td>
+			<td mine="0"></td>
+		</tr>
+		<tr>
+			<td mine="1"></td>
+			<td mine="0"></td>
+			<td mine="0"></td>
+			<td mine="1"></td>
+		</tr>
+		<tr>
+			<td mine="0"></td>
+			<td mine="1"></td>
+			<td mine="1"></td>
+			<td mine="0"></td>
+		</tr>
+		<tr>
+			<td mine="0"></td>
+			<td mine="1"></td>
+			<td mine="0"></td>
+			<td mine="1"></td>
+		</tr>
+	</table>
+
+
+
+
+	<script>
+
+		function clickTest(event) {
+			if (event.target.tagName === 'TD') {
+				const tdEl = event.target
+				const mineValue = tdEl.getAttribute('mine')
+				if (mineValue === '1')
+					tdEl.style.backgroundColor = 'red'
+				else tdEl.style.backgroundColor = 'green'
+			}
+		}
+
+		document.querySelector('table').onclick = clickTest
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

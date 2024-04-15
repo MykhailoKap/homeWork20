@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h1>Задача №11</h1>
+
+	<p>
+		Дано масив імен користувачів <br>
+		1) Упорядкувати масив за зростанням <br>
+		2) Упорядкувати масив за першою літерою за зростанням <br>
+		3) Упорядкувати масив за першою літерою за спаданням
+		<hr>
+	</p>
+
+
+
+
+	<script>
+
+		let names = [
+			'John',
+			'Paul',
+			'Olga',
+			'Andrew',
+			'Abrams',
+			'Abba',
+			'Peter',
+			'Tina',
+			'Olga',
+			'Jack',
+			'Peter',
+		]
+
+
+		//=========================================================================================
+
+		// 1)Упорядкувати масив за зростанням
+		let namesSort1 = names.sort((a, b) => {
+			if (a < b) return -1
+			if (a > b) return 1
+			return 0
+		})
+
+		console.log(namesSort1);
+
+		//=========================================================================================
+
+		// 2) Упорядкувати масив за першою літерою за зростанням 
+		let namesSort2 = names.sort((a, b) => {
+			// const code1 = a.charCodeAt(0)
+			// const code2 = b.charCodeAt(0)
+
+			// if (code1 < code2) return -1
+			// if (code1 > code2) return 1
+			// return 0
+			// return code1 - code2
+			return a.charCodeAt(0) - b.charCodeAt(0)
+		})
+
+		console.log(namesSort2);
+
+		//=========================================================================================
+
+		// 3) Упорядкувати масив за першою літерою за спаданням
+		let namesSort3 = names.sort((a, b) => b.charCodeAt(0) - a.charCodeAt(0))
+		console.log(namesSort3);
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

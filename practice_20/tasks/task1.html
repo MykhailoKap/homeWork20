@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+	<h1>Задача №1</h1>
+
+	<p>
+		Створити клас Range (діапазон) <br>
+		Властивості: <br>
+		- minValue <br>
+		- maxValue <br>
+		Методи: <br>
+		- inRange(value) – метод визначення того, чи є вказане значення у заданому діапазоні <br>
+		- toString
+		<hr>
+		На основі класу Range створити клас PensionerChecker <br>
+		Властивості: <br>
+		- minValue – мінімальний вік пенсіонера <br>
+		- maxValue – максимальний вік <br>
+		Методи: <br>
+		- isPensioner(age) – метод визначення того, чи є пенсіонером <br>
+		- render(containerID) – метод виведення розмітки
+
+
+	</p>
+
+	<div class="container"></div>
+
+
+
+	<script>
+
+		class Range {
+			constructor(minValue, maxValue) {
+				this.minValue = minValue
+				this.maxValue = maxValue
+			}
+
+			inRange(value) {
+				return this.minValue <= value && value <= this.maxValue
+			}
+
+			toString() {
+				return `minValue - ${this.minValue}, maxValue - ${this.maxValue}`
+			}
+		}
+
+
+		class PensionerChecker extends Range {
+			constructor(minValue = 65, maxValue = Infinity) {
+				super(minValue, maxValue)
+			}
+
+			isPensioner(age) {
+				return this.inRange(age)
+			}
+
+			checkAge() {
+				const age = parseInt(this.inpEl.value)
+				if (this.isPensioner(age))
+					alert('Пенсіонер')
+				else alert('Не пенсіонер')
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+
+				this.inpEl = document.createElement('input')
+				this.inpEl.setAttribute('type', 'number')
+
+				const btnEl = document.createElement('button')
+				btnEl.innerText = 'Чи пенсіонер?'
+				btnEl.onclick = this.checkAge.bind(this)
+
+				el.append(this.inpEl)
+				el.append(btnEl)
+
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+			}
+
+		}
+
+		window.onload = function () {
+			new PensionerChecker().render('.container')
+		}
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

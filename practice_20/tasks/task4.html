@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+	button {
+		cursor: pointer;
+		width: 100px;
+	}
+
+	div {
+		margin-bottom: 10px;
+	}
+</style>
+
+<body>
+	<h1>Задача №4</h1>
+
+	<p>
+		На сторінці міститься певна кількість кнопок і інпутів. Підраховувати загальну кількість кліків окремо на кнопках
+		і
+		окремо на інпутах.
+	</p>
+	<hr>
+
+	<div>
+		<button>Button 1</button>
+	</div>
+	<div>
+		<button>Button 2</button>
+	</div>
+	<div>
+		<button>Button 3</button>
+	</div>
+	<div>
+		<label for="1">
+			Input 1
+			<input id="1" type="text">
+		</label>
+	</div>
+	<div>
+		<label for="2">
+			Input 2
+			<input id="2" type="text">
+		</label>
+	</div>
+	<div>
+		<label for="3">
+			Input 3
+			<input id="3" type="text">
+		</label>
+	</div>
+	<div>
+		Кількість кліків на кнопках - <span id="span1"></span>
+	</div>
+	<div>
+		Кількість кліків на інпутах - <span id="span2"></span>
+	</div>
+
+
+	<script>
+
+		let btnClick = 0
+		let inpClick = 0
+
+		window.captureEvents(Event.CLICK)
+
+		window.addEventListener('click', (e) => {
+			if (e.target.tagName === 'BUTTON') {
+				btnClick++
+				document.getElementById('span1').innerText = btnClick
+			}
+			else if (e.target.tagName === 'INPUT') {
+				inpClick++
+				document.getElementById('span2').innerText = inpClick
+			}
+		})
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

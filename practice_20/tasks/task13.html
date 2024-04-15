@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h1>Задача №11</h1>
+
+	<p>
+		відсортувати тижні (рядки) за спаданням максимального елементи у цьому тижні (рядку), тобто при порівнянні рядків
+		потрібно порівнювати максимальні елементи у кожному з цих рядків <br>
+		1) потрібно створити масив з максимальних елементів рядків maxRowsElements <br>
+		2) упорядковувати масив maxRowsElements (і якщо міняємо якісь елементи у масиві maxRowsElements, то
+		треба міняти місцями і відповідні рядки)
+
+		<hr>
+	</p>
+
+
+
+
+	<script>
+
+		let arr = [
+			[1, 3, 49, 8, 12],
+			[21, 45, 98, 18, 33],
+			[9, 3, 17, 48, 10],
+			[52, 16, 49, 77, 23],
+			[2, 36, 49, 92, 53],
+		]
+
+
+		//=========================================================================================
+
+		// створюємо масив з максимальних елементів рядків maxRowsElements
+		// let maxRowsElements = arr.map((row) => row.reduce((prevMax, num) => num > prevMax ? num : prevMax))
+		// console.log(maxRowsElements);
+
+		let maxRowsElements = arr.map((row) => Math.max(...row))
+		console.log(maxRowsElements);
+
+		//=========================================================================================
+
+		// упорядковувати масив maxRowsElements 
+
+		const lastPrevIndex = maxRowsElements.length - 2
+
+		for (let i = 0; i <= lastPrevIndex; i++) {
+			let minIndex = i
+
+			for (let j = i + 1; j < maxRowsElements.length; j++) {
+				if (maxRowsElements[j] < maxRowsElements[minIndex])
+					minIndex = j
+			}
+
+			if (minIndex !== i) {
+				let temp = maxRowsElements[i]
+				maxRowsElements[i] = maxRowsElements[minIndex]
+				maxRowsElements[minIndex] = temp
+
+				let tempRow = arr[i]
+				arr[i] = arr[minIndex]
+				arr[minIndex] = tempRow
+			}
+
+
+		}
+
+		console.log(maxRowsElements);
+		console.log(arr);
+
+
+
+		//=========================================================================================
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

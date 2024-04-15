@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h1>Задача №11</h1>
+
+	<p>
+		Знайти максимальну кількість нулів у одному рядку
+		<hr>
+	</p>
+
+
+
+
+	<script>
+
+		let arr = [
+			[1, 3, 0, 8, 2],
+			[1, 0, 0, 18, 2],
+			[0, 3, 0, 1, 0],
+		]
+
+
+		let maxNumZeroInRow = arr.reduce((maxZeroInRow, row) => {
+			let numZeroInRow = row.reduce((prevZeroInRow, num) => (num === 0 ? prevZeroInRow + 1 : prevZeroInRow), 0)
+			return maxZeroInRow < numZeroInRow ? numZeroInRow : maxZeroInRow
+		}, -Infinity)
+
+		console.log(maxNumZeroInRow);
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

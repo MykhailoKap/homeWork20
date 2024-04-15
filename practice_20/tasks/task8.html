@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+	.productItem {
+		border: 1px solid #000;
+		width: 200px;
+		padding: 5px;
+		display: flex;
+		justify-content: space-between;
+	}
+</style>
+
+<body>
+	<h1>Задача №7</h1>
+
+	<p>
+		Описати клас Product, що представляє товар онлайн магазину (з можливістю видалення). Потім описати клас корзина
+		"Cart",
+		у якому є список продуктів. При видаленні продукту повинна змінюватись загальна вартість у корзині.
+		<hr>
+	</p>
+
+	<div class="container"></div>
+
+
+	<!-- <div>
+		Total: <span>1000</span>
+	</div> -->
+
+
+	<script>
+
+		class Product {
+			constructor({ productTitle, price }) {
+				this.productTitle = productTitle
+				this.price = price
+			}
+
+			onDelete() {
+				const deleteEvent = new CustomEvent('deleteProdPrice', {
+					detail: {
+						deletedPrice: this.price,
+					},
+				})
+				this.el.dispatchEvent(deleteEvent)
+				this.el.remove()
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+				el.className = 'productItem'
+
+				const prodEl = document.createElement('span')
+				prodEl.innerText = this.productTitle
+
+				const priceEl = document.createElement('span')
+				priceEl.innerText = this.price
+
+				const btnEl = document.createElement('button')
+				btnEl.innerText = 'delete'
+				btnEl.onclick = this.onDelete.bind(this)
+
+				el.append(prodEl)
+				el.append(priceEl)
+				el.append(btnEl)
+
+				this.el = el
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+
+				return el
+			}
+		}
+
+		class Cart {
+			constructor(productList) {
+				this.productList = productList
+			}
+
+			reduceTotalPrice(event) {
+				let priceToDelete = event.detail.deletedPrice
+				this.totalProductPrice -= priceToDelete
+
+				this.spanEl.innerText = this.totalProductPrice
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+
+				for (const product of this.productList) {
+					const productItem = new Product(product)
+					el.append(productItem.render())
+
+					productItem.el.addEventListener('deleteProdPrice', this.reduceTotalPrice.bind(this))
+				}
+
+				const itemEl = document.createElement('div')
+				itemEl.innerText = 'Total : '
+
+				const spanEl = document.createElement('span')
+				this.totalProductPrice = this.productList.reduce((prevSum, product) => prevSum + product.price, 0)
+				spanEl.innerText = this.totalProductPrice
+				this.spanEl = spanEl
+
+				itemEl.append(spanEl)
+				el.append(itemEl)
+
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+			}
+		}
+
+		const productList = [
+			{
+				productTitle: 'prod1',
+				price: 1000,
+			},
+			{
+				productTitle: 'prod2',
+				price: 1300,
+			},
+			{
+				productTitle: 'prod3',
+				price: 2140,
+			},
+			{
+				productTitle: 'prod4',
+				price: 900,
+			},
+		]
+
+
+		window.onload = function () {
+			const test = new Cart(productList)
+			test.render('.container')
+		}
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+	body {
+		font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	}
+
+	.inputItem {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+
+	.listOfWorkers {
+		max-width: 150px;
+	}
+
+	.title {
+		font-size: 24px;
+		margin-bottom: 10px;
+		letter-spacing: 1px;
+	}
+
+	.workerItem {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 5px;
+	}
+</style>
+
+<body>
+	<h1>Задача №5</h1>
+
+	<p>
+		Динамічний пошук. Є список працівників і поле пошуку. При введенні відображаються усі, які містять вказаний
+		фрагмент
+		<hr>
+	</p>
+
+
+	<div class="container"></div>
+
+
+
+	<script>
+
+		const workerList = [
+			{
+				worker: 'Білоус А.П.',
+			},
+			{
+				worker: 'Гончаренко К.І.',
+			},
+			{
+				worker: 'Загороднюк О.В.',
+			},
+			{
+				worker: 'Ковальчук М.С.',
+			},
+			{
+				worker: 'Левицький Д.О.',
+			},
+			{
+				worker: 'Мазур Н.Є.',
+			},
+			{
+				worker: 'Петренко Ю.Г.',
+			},
+			{
+				worker: 'Пономаренко Т.Д.',
+			},
+			{
+				worker: 'Сидоренко І.Л.',
+			},
+			{
+				worker: 'Шевченко Р.М.',
+			},
+		]
+
+		class FilterName {
+			constructor(title, placeholderTitle) {
+				this.title = title
+				this.placeholderTitle = placeholderTitle
+			}
+
+			searchPerson() {
+				const filterEvent = new CustomEvent('filteredPerson', {
+					detail: {
+						value: this.inpEl.value.toLowerCase()
+					}
+				})
+				this.el.dispatchEvent(filterEvent)
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+				el.className = 'inputItem'
+
+				const labelEl = document.createElement('label')
+				labelEl.setAttribute('for', '1')
+				labelEl.innerText = this.title
+
+				const inpEl = document.createElement('input')
+				inpEl.setAttribute('id', '1')
+				inpEl.setAttribute('placeholder', this.placeholderTitle)
+				inpEl.oninput = this.searchPerson.bind(this)
+				this.inpEl = inpEl
+
+				el.append(labelEl)
+				el.append(inpEl)
+				this.el = el
+
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+			}
+		}
+
+
+		class WorkerList {
+			constructor(listTitle, workerList) {
+				this.listTitle = listTitle
+				this.workerList = workerList
+			}
+
+			showFilteredList(event) {
+				const filteredWorker = event.detail.value
+				const collection = document.querySelectorAll('.workerItem')
+
+				for (const worker of collection) {
+					const test2 = worker.innerText.toLowerCase()
+					if (!test2.includes(filteredWorker))
+						worker.remove()
+				}
+			}
+
+			// onFilteredList(event) {
+			// 	const filteredWorker = event.detail.value
+			// 	this.showFilteredList(filteredWorker)
+			// }
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+				el.className = 'listOfWorkers'
+
+				const listTitleEL = document.createElement('div')
+				listTitleEL.className = 'title'
+				listTitleEL.innerText = this.listTitle
+
+				el.append(listTitleEL)
+
+				for (const workerFromList of this.workerList) {
+					const workerEl = document.createElement('div')
+					workerEl.innerText = workerFromList.worker
+					workerEl.className = 'workerItem'
+
+					el.append(workerEl)
+				}
+
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+			}
+		}
+
+
+
+		window.onload = function () {
+			const filter1 = new FilterName('Ім"я', 'я шукаю..')
+			filter1.render('.container')
+
+			const workerList1 = new WorkerList('Працівники', workerList)
+			workerList1.render('.container')
+
+			filter1.el.addEventListener('filteredPerson', workerList1.showFilteredList)
+		}
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

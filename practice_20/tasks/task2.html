@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+	<h1>Задача №2</h1>
+
+	<p>
+		Створити клас Client <br>
+		Властивості: <br>
+		- ID <br>
+		- ПІБ <br>
+		- Кількість грошей на рахунку <br>
+		Методи: <br>
+		- Додавання грошей <br>
+		- Зняття грошей <br>
+		- ToString
+		<hr>
+		На основі цього класу створити клас GoldenClient <br>
+		Властивості: <br>
+		- ID <br>
+		- ПІБ <br>
+		- Кількість грошей на рахунку <br>
+		- Ліміт кредитних коштів <br>
+		- Відсоток за використання кредитних коштів <br>
+		Методи: <br>
+		- Додавання грошей <br>
+		- Зняття грошей <br>
+		- Визначення пені за використання кредитних коштів <br>
+		- ToString
+
+
+	</p>
+	<hr>
+
+	<div class="container"></div>
+
+
+	<script>
+
+		class Client {
+
+			#money
+			constructor(id, personData, moneyCount) {
+				this.id = id
+				this.personData = personData
+				this.MoneyCount = moneyCount
+			}
+
+			get MoneyCount() {
+				return this.#money
+			}
+
+			set MoneyCount(newValue) {
+				if (newValue < 0)
+					throw new Error('Некоректна квота')
+				else this.#money = newValue
+			}
+
+			addMoney(newValue) {
+				if (newValue < 0)
+					throw new Error('Некоректна квота')
+				else this.MoneyCount += newValue
+			}
+
+			withdrawMoney(newValue) {
+				if (newValue < 0 || newValue > this.MoneyCount)
+					throw new Error('Некоректна квота')
+				else this.MoneyCount -= newValue
+			}
+
+			toString() {
+				return `ID клієнта - ${this.id}, ПІБ клієнта - ${this.personData},  стан конта - ${this.MoneyCount}`
+			}
+		}
+
+		class GoldenClient extends Client {
+			constructor(id, personData, moneyCount, creditLimit, creditPercents) {
+				super(id, personData, moneyCount)
+				this.creditLimit = creditLimit
+				this.creditPercents = creditPercents
+			}
+
+			getCreditPercentageValue(creditPeriod = 1) {
+				return this.creditLimit * (this.creditPercents / 100) * creditPeriod
+			}
+
+			toString() {
+				return `ID Golden клієнта - ${this.id}, ПІБ клієнта - ${this.personData},  
+				стан конта - ${this.MoneyCount}, пеня за використання кредитних коштів - ${this.getCreditPercentageValue()}`
+			}
+		}
+
+
+		window.onload = function () {
+			const cl1 = new Client(111, 'Misha', 100)
+			console.log(cl1);
+
+			cl1.addMoney(50)
+			console.log(cl1);
+
+			cl1.withdrawMoney(25)
+			console.log(cl1);
+
+			const goldenCl1 = new GoldenClient(222, 'Oksi', 200, 300, 30)
+			console.log(goldenCl1);
+
+			goldenCl1.addMoney(50)
+			console.log(goldenCl1);
+
+		}
+
+
+	</script>
+
+
+
+</body>
+
+</html>

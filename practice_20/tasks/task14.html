@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<h1>Задача №11</h1>
+
+	<p>
+		упорядкувати тижні (рядки) за спаданням суми елементів у рядку (тобто при порівнянні двох рядків треба знайти суму
+		кожного з рядків і порівнювати ці суми, на основі цих сум буде зрозуміло, який з елементів повинен іти раніше).
+		<hr>
+	</p>
+
+
+
+
+	<script>
+
+		let arr = [
+
+			[21, 45, 98, 18, 33],
+			[9, 3, 17, 48, 10],
+			[1, 3, 49, 8, 12],
+		]
+
+		console.log(arr);
+
+
+		//=========================================================================================
+
+		// знаходимо суми протягом тижня для кожного магазину
+
+		let shopIncomePerWeek = arr.reduce((prevArr, row) => {
+			let shopIncome = row.reduce((prevSum, daySum) => (prevSum + daySum), 0)
+			prevArr.push(shopIncome)
+			return prevArr
+		}, [])
+
+		console.log(shopIncomePerWeek);
+
+		//=========================================================================================
+
+		// упорядковувати масив shopIncomePerWeek
+
+		const lastPrevIndex = shopIncomePerWeek.length - 2
+
+		for (let i = 0; i <= lastPrevIndex; i++) {
+			let minIndex = i
+
+			for (let j = i + 1; j < shopIncomePerWeek.length; j++) {
+				if (shopIncomePerWeek[j] < shopIncomePerWeek[minIndex])
+					minIndex = j
+			}
+
+			if (minIndex !== i) {
+				let temp = shopIncomePerWeek[i]
+				shopIncomePerWeek[i] = shopIncomePerWeek[minIndex]
+				shopIncomePerWeek[minIndex] = temp
+
+				let tempRow = arr[i]
+				arr[i] = arr[minIndex]
+				arr[minIndex] = tempRow
+			}
+		}
+
+		console.log(shopIncomePerWeek);
+		console.log(arr);
+
+
+
+		//=========================================================================================
+
+
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

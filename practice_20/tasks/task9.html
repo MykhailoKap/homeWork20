@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<style>
+	.productItem {
+		width: 400px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border: 1px solid #000;
+		padding: 5px;
+	}
+
+	.buttons {
+		display: flex;
+		align-items: center;
+		width: 80px;
+		justify-content: space-between;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	img {
+		width: 40px;
+	}
+</style>
+
+<body>
+	<h1>Задача №9</h1>
+
+	<p>
+		Дано перелік товарів у кошику. При зміні кількості одиниць товару збільшувати загальну
+		вартість. Створити клас Product, що призначений для маніпуляцій товаром та клас ProductManager
+		що оперує з усіма товарами (через подію передвати ідентифікатор товару та операцію, що зроблена)
+		<hr>
+	</p>
+
+	<div class="container"></div>
+
+
+
+	<script>
+
+
+		class Product {
+			constructor({ imgSrc, title, price }) {
+				this.imgSrc = imgSrc
+				this.title = title
+				this.price = price
+				this.counter = 0
+				this.prodTotalSum = 0
+			}
+
+			deleteSum() {
+				if (this.counter > 0 && this.prodTotalSum > 0) {
+					this.counter--
+					this.prodTotalSum -= this.price
+					this.counterEl.innerText = this.counter
+					this.spanEl.innerText = this.prodTotalSum
+				}
+			}
+
+			addSum() {
+				this.counter++
+				this.prodTotalSum += this.price
+				this.counterEl.innerText = this.counter
+				this.spanEl.innerText = this.prodTotalSum
+			}
+
+			addProductTotalSum() {
+
+				const addProductEvent = new CustomEvent('addedProductTotalSum', {
+					detail: {
+						prodTotalPrice: this.prodTotalSum,
+						checkedStatus: this.checkboxEL.checked
+					}
+				})
+				this.el.dispatchEvent(addProductEvent)
+
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+				el.className = 'productItem'
+
+				const imgEl = document.createElement('div')
+				const img = document.createElement('img')
+				img.setAttribute('src', this.imgSrc)
+				imgEl.append(img)
+
+				const productTitleEL = document.createElement('div')
+				productTitleEL.innerText = this.title
+
+				const buttonsEl = document.createElement('div')
+				buttonsEl.className = 'buttons'
+
+				const btnMinusEl = document.createElement('button')
+				btnMinusEl.innerText = '-'
+				btnMinusEl.onclick = this.deleteSum.bind(this)
+
+				const btnPlusEl = document.createElement('button')
+				btnPlusEl.innerText = '+'
+				btnPlusEl.onclick = this.addSum.bind(this)
+
+				const counterEl = document.createElement('span')
+				counterEl.innerText = this.counter
+				this.counterEl = counterEl
+
+				buttonsEl.append(btnMinusEl)
+				buttonsEl.append(counterEl)
+				buttonsEl.append(btnPlusEl)
+
+				const totalSumEL = document.createElement('div')
+				totalSumEL.innerText = 'До оплати: '
+
+				const spanEl = document.createElement('span')
+				spanEl.innerText = this.prodTotalSum
+				this.spanEl = spanEl
+
+				totalSumEL.append(spanEl)
+
+				const checkboxEL = document.createElement('input')
+				checkboxEL.setAttribute('type', 'checkbox')
+				this.checkboxEL = checkboxEL
+				checkboxEL.onclick = this.addProductTotalSum.bind(this)
+
+				el.append(imgEl)
+				el.append(productTitleEL)
+				el.append(buttonsEl)
+				el.append(totalSumEL)
+				el.append(checkboxEL)
+
+				this.el = el
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+
+				return el
+			}
+		}
+
+
+		class ProductManager {
+			constructor(productList) {
+				this.productList = productList
+				this.totalSum = 0
+			}
+
+			getTotalSum(event) {
+
+				if (event.detail.checkedStatus) {
+					this.totalSum += event.detail.prodTotalPrice
+					this.spanEl.innerText = this.totalSum
+				} else {
+					this.totalSum -= event.detail.prodTotalPrice
+					this.spanEl.innerText = this.totalSum
+				}
+
+			}
+
+			render(containerSelector) {
+				const el = document.createElement('div')
+
+				for (const product of this.productList) {
+					const productItem = new Product(product)
+					el.append(productItem.render())
+
+					productItem.el.addEventListener('addedProductTotalSum', this.getTotalSum.bind(this))
+				}
+
+				const totalSumEl = document.createElement('div')
+				totalSumEl.innerText = 'Загалом до оплати: '
+
+				const spanEl = document.createElement('span')
+				spanEl.innerText = `${this.totalSum} грн.`
+				this.spanEl = spanEl
+
+				totalSumEl.append(spanEl)
+				el.append(totalSumEl)
+
+				if (containerSelector)
+					document.querySelector(containerSelector).append(el)
+			}
+		}
+
+		const productList = [
+			{
+				imgSrc: '../img/bee1.png',
+				title: 'product 1',
+				price: 100,
+			},
+			{
+				imgSrc: '../img/bee1.png',
+				title: 'product 2',
+				price: 200,
+			},
+			{
+				imgSrc: '../img/bee1.png',
+				title: 'product 3',
+				price: 300,
+			},
+		]
+
+
+
+
+
+		window.onload = function () {
+			// const test = new Product('../img/bee1.png', 'test', 100)
+			// test.render('.container')
+
+			// test.el.addEventListener('addedProductTotalSum', someFunc)
+
+			// function someFunc(event) {
+			// 	setTimeout(() => alert(`${event.detail.prodTotalPrice} - ${event.detail.checkedStatus}`), 2000)
+			// }
+
+			const newTest = new ProductManager(productList)
+			newTest.render('.container')
+		}
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
